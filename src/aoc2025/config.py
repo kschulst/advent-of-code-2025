@@ -18,7 +18,7 @@ class Settings(BaseSettings):
 
     session_cookie: str = ""
     year: int = 2025
-    solutions_dir: Path = Path("solutions")
+    solutions_dir: Path = Path(__file__).parent.parent.parent / "solutions"
     config_file: Path = Path.home() / ".config" / "aoc2025" / "config.yml"
 
     def model_post_init(self, __context: Any) -> None:
