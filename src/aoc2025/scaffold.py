@@ -48,7 +48,7 @@ from .solution import Solution
 __all__ = ["Solution"]
 '''
 
-README_TEMPLATE = '''# Day {day}: [Title TBD]
+README_TEMPLATE = """# Day {day}: [Title TBD]
 
 ## Part 1
 
@@ -61,7 +61,7 @@ TODO: Add notes about part 2
 ## Approach
 
 TODO: Describe your solution approach
-'''
+"""
 
 
 class DayScaffold:
@@ -98,7 +98,9 @@ class DayScaffold:
         self._create_file("input.txt", "", force)
         self._create_file("test_input.txt", "", force)
 
-        console.print(f"[green]Created scaffold for day {self.day} at {self.day_dir}[/green]")
+        console.print(
+            f"[green]Created scaffold for day {self.day} at {self.day_dir}[/green]"
+        )
 
     def _create_file(self, filename: str, template: str, force: bool) -> None:
         """Create a single file from a template."""

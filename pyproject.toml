@@ -20,6 +20,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pyright>=1.1.0",
+    "black>=24.0.0",
 ]
 
 [project.scripts]
@@ -44,3 +45,18 @@ reportUnknownArgumentType = false
 reportAssignmentType = false
 reportUnnecessaryComparison = false
 reportUnnecessaryCast = false
+
+[tool.black]
+line-length = 88
+target-version = ['py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.git
+  | \.venv
+  | build
+  | dist
+  | migrations
+)/
+'''

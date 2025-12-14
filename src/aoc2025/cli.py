@@ -65,7 +65,11 @@ def new(
     ] = False,
     download: Annotated[
         bool,
-        typer.Option("--download/--no-download", "-d", help="Download input after creating scaffold"),
+        typer.Option(
+            "--download/--no-download",
+            "-d",
+            help="Download input after creating scaffold",
+        ),
     ] = True,
 ) -> None:
     """Create a new day's solution scaffold.
@@ -120,7 +124,8 @@ def run(
         Optional[int], typer.Option("--part", "-p", help="Part to run (1 or 2)")
     ] = None,
     test: Annotated[
-        bool, typer.Option("--test", "-t", help="Use test_input.txt instead of input.txt")
+        bool,
+        typer.Option("--test", "-t", help="Use test_input.txt instead of input.txt"),
     ] = False,
 ) -> None:
     """Run solution for a specific day and part."""
@@ -128,14 +133,14 @@ def run(
     solution_path = scaffold.get_solution_path()
 
     if not solution_path.exists():
-        console.print(
-            f"[red]Solution file not found: {solution_path}[/red]"
-        )
+        console.print(f"[red]Solution file not found: {solution_path}[/red]")
         console.print(f"[yellow]Run 'aoc new {day}' to create it[/yellow]")
         raise typer.Exit(code=1)
 
     # Load the solution module dynamically
-    spec = importlib.util.spec_from_file_location(f"day_{day:02d}.solution", solution_path)
+    spec = importlib.util.spec_from_file_location(
+        f"day_{day:02d}.solution", solution_path
+    )
     if spec is None or spec.loader is None:
         console.print("[red]Could not load solution module[/red]")
         raise typer.Exit(code=1)
@@ -173,7 +178,9 @@ def submit(
     part: Annotated[int, typer.Argument(help="Part number (1 or 2)", min=1, max=2)],
     answer: Annotated[
         Optional[str],
-        typer.Option("--answer", "-a", help="Answer to submit (or use solution output)"),
+        typer.Option(
+            "--answer", "-a", help="Answer to submit (or use solution output)"
+        ),
     ] = None,
 ) -> None:
     """Submit an answer for a specific day and part.

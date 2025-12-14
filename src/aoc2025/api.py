@@ -176,7 +176,9 @@ class AOCClient:
             remaining = (unlock_time - datetime.now(timezone.utc)).total_seconds()
             if remaining <= 0:
                 break
-            console.print(f"\r[yellow]{int(remaining)} seconds remaining...[/yellow]", end="")
+            console.print(
+                f"\r[yellow]{int(remaining)} seconds remaining...[/yellow]", end=""
+            )
             sleep(1)
 
         console.print("\n[green]Puzzle unlocked![/green]")

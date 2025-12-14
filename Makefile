@@ -1,4 +1,4 @@
-.PHONY: help install login status new run test submit web clean
+.PHONY: help install login status new run test submit web clean format check typecheck
 
 help:
 	@echo "Kenneth's AOC 2025 Toolkit - Available Commands:"
@@ -11,6 +11,9 @@ help:
 	@echo "  make test DAY=N - Run solution with test input"
 	@echo "  make submit DAY=N PART=P - Submit answer for day N part P"
 	@echo "  make web        - Start Django web server"
+	@echo "  make format     - Format code with Black"
+	@echo "  make check      - Check code formatting"
+	@echo "  make typecheck  - Run type checker"
 	@echo "  make clean      - Clean build artifacts"
 	@echo ""
 
@@ -55,6 +58,18 @@ web:
 	@echo "Starting Django web server..."
 	@uv run python src/aoc2025/web/manage.py migrate --no-input 2>/dev/null || true
 	uv run python src/aoc2025/web/manage.py runserver
+
+format:
+	@echo "Formatting code with Black..."
+	uv run black src solutions
+
+check:
+	@echo "Checking code formatting..."
+	uv run black --check src solutions
+
+typecheck:
+	@echo "Running type checks..."
+	uv run pyright src solutions
 
 clean:
 	rm -rf build/ dist/ *.egg-info

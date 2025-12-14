@@ -1,5 +1,8 @@
 # Kennneth's Advent of Code 2025 🎄
 
+![Build Status](https://github.com/kschulst/advent-of-code-2025/workflows/Build%20and%20Test/badge.svg)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 A Python toolkit for solving [Advent of Code](https://adventofcode.com) puzzles with a handy CLI and web showcase. Fork and use it for your own solutions! 🧑🏻‍🎄
 
 Have a look at my solutions at https://kenneths-advent-of-code-2025.onrender.com
@@ -259,9 +262,9 @@ Visit http://localhost:8000
 - 🔗 Direct links to AOC problem pages
 - ⬇️ Download inputs directly from web UI
 
-## Type Safety
+## Code Quality
 
-This project uses **strict type checking** with pyright to ensure code quality.
+This project uses **strict type checking** with pyright and **automatic formatting** with Black to ensure code quality.
 
 ### Running Type Checks
 
@@ -275,6 +278,16 @@ uv run pyright
 # Check specific directories
 uv run pyright src
 uv run pyright solutions
+```
+
+### Code Formatting
+
+```bash
+# Check formatting
+uv run black --check src solutions
+
+# Auto-format code
+uv run black src solutions
 ```
 
 ## Configuration
@@ -342,7 +355,9 @@ make run DAY=1           # Run solution
 make test DAY=1          # Run with test input
 make submit DAY=1 PART=1 # Submit answer
 make web                 # Start Django server
-make check               # Run pyright type checker
+make format              # Format code with Black
+make check               # Check code formatting
+make typecheck           # Run pyright type checker
 ```
 
 ## Example Workflow

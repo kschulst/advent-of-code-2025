@@ -9,5 +9,7 @@ app_name = "showcase"
 urlpatterns = [
     path("", views.index, name="index"),
     path("day/<int:day>/", views.day_detail, name="day_detail"),
-    path("api/download-input/<int:day>/", views.download_input_api, name="download_input"),
+    path(
+        "api/download-input/<int:day>/", views.download_input_api, name="download_input"
+    ),
 ]

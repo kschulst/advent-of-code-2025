@@ -7,12 +7,14 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-aoc2025-local-dev-only-change-in-production')
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY", "django-insecure-aoc2025-local-dev-only-change-in-production"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
+DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 # Application definition
 INSTALLED_APPS = [
