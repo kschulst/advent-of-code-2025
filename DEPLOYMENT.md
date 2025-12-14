@@ -1,4 +1,4 @@
-# Deployment to Render.com (Free Tier)
+# Deployment to Render.com
 
 The following is a guide for deploying the AOC 2025 web showcase to Render.com with automatic GitHub deployments.
 
@@ -34,7 +34,7 @@ Go to https://render.com and sign up (free).
 
 1. Click "New +" → "Web Service"
 2. Connect your GitHub account
-3. Select your `aoc2025` repository
+3. Select your `advent-of-code-2025` repository
 4. Render will auto-detect your `render.yaml`
 
 ### 3. Configure Service
@@ -78,7 +78,7 @@ Render will automatically:
 
 The app will be available at: `https://app-name.onrender.com`
 
-## Updating Your App
+## Updating
 
 Push to GitHub:
 
@@ -92,7 +92,7 @@ Render auto-deploys in ~2-3 minutes!
 
 ## Troubleshooting
 
-### Build Fails
+### If the build fails
 
 Check logs in dashboard. Common issues:
 - Make sure `build.sh` is executable: `chmod +x build.sh`
