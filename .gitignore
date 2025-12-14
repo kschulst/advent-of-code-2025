@@ -12,8 +12,6 @@ venv/
 env/
 
 # AOC specific
-solutions/*/input.txt
-solutions/*/test_input.txt
 ~/.config/aoc2025/config.yml
 
 # Django

@@ -2,6 +2,8 @@
 
 A Python toolkit for solving [Advent of Code](https://adventofcode.com) puzzles with a handy CLI and web showcase. Fork and use it for your own solutions! 🧑🏻‍🎄
 
+Have a look at my solutions at https://kenneths-advent-of-code-2025.onrender.com
+
 ## Table of Contents
 - [Quick Start](#quick-start)
 - [Installation](#installation)
