@@ -20,7 +20,7 @@ Have a look at my solutions at https://kenneths-advent-of-code-2025.onrender.com
 
 ## Quick Start
 
-**Note**: The following assumes you've installed the tool globally with `uv tool install .` and can use `aoc` commands directly. See [Installation](#installation) for setup.
+**Note**: The following assumes you've installed the tool and can use `aoc` commands directly. See [Installation](#installation) for setup.
 
 ```bash
 # 1. Install dependencies and tool
@@ -58,14 +58,14 @@ cd aoc2025
 # Install dependencies
 uv sync
 
-# Install with dev dependencies (includes pyright)
+# Install with dev dependencies
 uv sync --extra dev
 
 # Install the tool globally so you can use 'aoc' directly
 uv tool install .
 ```
 
-This makes the `aoc` command available globally. You can now use `aoc` instead of `uv run aoc` throughout the rest of this guide.
+This makes the `aoc` command available globally. You can now use `aoc` instead of `uv run aoc`.
 
 ### Get Your Session Cookie
 
