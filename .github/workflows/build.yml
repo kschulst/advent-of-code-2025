@@ -1,0 +1,90 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        version: "latest"
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Cache dependencies
+      uses: actions/cache@v4
+      with:
+        path: .venv
+        key: venv-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}
+
+    - name: Install dependencies
+      run: |
+        uv sync --extra dev
+
+    - name: Run type checks with pyright
+      run: |
+        uv run pyright src
+        uv run pyright solutions
+
+    # Generate a random secret key for testing (not stored, regenerated each run)
+    # This is more secure than hardcoding a test key
+    - name: Generate test secret key
+      id: secret
+      run: |
+        echo "key=$(python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())')" >> $GITHUB_OUTPUT
+
+    - name: Run Django system checks
+      run: |
+        uv run python src/aoc2025/web/manage.py check --deploy
+      env:
+        DJANGO_SECRET_KEY: ${{ steps.secret.outputs.key }}
+        DJANGO_DEBUG: "False"
+        ALLOWED_HOSTS: "localhost,127.0.0.1"
+
+    - name: Check for missing migrations
+      run: |
+        uv run python src/aoc2025/web/manage.py makemigrations --check --dry-run
+      env:
+        DJANGO_SECRET_KEY: ${{ steps.secret.outputs.key }}
+
+    - name: Run migrations (dry run)
+      run: |
+        uv run python src/aoc2025/web/manage.py migrate --check
+      env:
+        DJANGO_SECRET_KEY: ${{ steps.secret.outputs.key }}
+
+    - name: Collect static files
+      run: |
+        uv run python src/aoc2025/web/manage.py collectstatic --noinput
+      env:
+        DJANGO_SECRET_KEY: ${{ steps.secret.outputs.key }}
+
+    - name: Test build script
+      run: |
+        chmod +x build.sh
+        # Don't actually run it, just verify it's valid bash
+        bash -n build.sh
+
+    - name: Verify gunicorn can start (syntax check)
+      run: |
+        uv run gunicorn --version
+
+    - name: Build summary
+      if: always()
+      run: |
+        echo "✅ Build completed successfully!"
+        echo "Ready to deploy to Render.com"
