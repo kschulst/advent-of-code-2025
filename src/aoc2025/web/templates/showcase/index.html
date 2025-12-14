@@ -8,22 +8,24 @@
 {% if days %}
 <div class="day-grid">
     {% for day in days %}
-    <div class="day-card">
-        <h3><a href="{% url 'showcase:day_detail' day.number %}">Day {{ day.number }}</a></h3>
-        <div class="status {% if day.has_solution and day.has_input %}complete{% else %}incomplete{% endif %}">
-            {% if day.has_solution %}
-                ✓ Solution
-            {% else %}
-                ✗ No solution
-            {% endif %}
-            <br>
-            {% if day.has_input %}
-                ✓ Input
-            {% else %}
-                ✗ No input
-            {% endif %}
+    <a href="{% url 'showcase:day_detail' day.number %}" class="day-card-link">
+        <div class="day-card">
+            <h3>Day {{ day.number }}</h3>
+            <div class="status {% if day.has_solution and day.has_input %}complete{% else %}incomplete{% endif %}">
+                {% if day.has_solution %}
+                    ✓ Solution
+                {% else %}
+                    ✗ No solution
+                {% endif %}
+                <br>
+                {% if day.has_input %}
+                    ✓ Input
+                {% else %}
+                    ✗ No input
+                {% endif %}
+            </div>
         </div>
-    </div>
+    </a>
     {% endfor %}
 </div>
 {% else %}
