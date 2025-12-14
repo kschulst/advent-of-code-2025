@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}AOC {{ year }} - Day {{ day }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+.collapsible {
+    background-color: #10101a;
+    color: var(--link);
+    cursor: pointer;
+    padding: 15px;
+    width: 100%;
+    border: 1px solid #333;
+    text-align: left;
+    outline: none;
+    font-size: 1em;
+    border-radius: 5px;
+    margin: 10px 0;
+    font-family: inherit;
+}
+
+.collapsible:hover {
+    background-color: #1a1a2e;
+    border-color: var(--link);
+}
+
+.collapsible:after {
+    content: '\25BC';
+    float: right;
+    margin-left: 5px;
+}
+
+.collapsible.active:after {
+    content: '\25B2';
+}
+
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #10101a;
+    border: 1px solid #333;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+}
+
+.collapsible-content pre {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<h2>Day {{ day }}</h2>
+
+<p>
+    <a href="/">← Back to all days</a> |
+    <a href="{{ aoc_url }}" target="_blank" rel="noopener">View Problem on AOC →</a>
+</p>
+
+{% if error %}
+<div style="color: #ff6666; padding: 10px; background: #331111; border-radius: 5px;">
+    <strong>Error:</strong> {{ error }}
+</div>
+{% endif %}
+
+{% if readme %}
+<div style="margin: 20px 0;">
+    <h3>Notes</h3>
+    <pre>{{ readme }}</pre>
+</div>
+{% endif %}
+
+{% if has_solution %}
+<h3>Answers</h3>
+
+<div class="answer">
+    <strong>Part 1:</strong>
+    {% if part1_answer %}
+        <code>{{ part1_answer }}</code>
+    {% else %}
+        <em>Run solution to see answer</em>
+    {% endif %}
+</div>
+
+<div class="answer">
+    <strong>Part 2:</strong>
+    {% if part2_answer %}
+        <code>{{ part2_answer }}</code>
+    {% else %}
+        <em>Run solution to see answer</em>
+    {% endif %}
+</div>
+
+{% if input_text %}
+<h3>Input Data</h3>
+<button class="collapsible" onclick="toggleCollapsible(this)">
+    Show Input ({{ input_line_count }} lines)
+</button>
+<div class="collapsible-content">
+    <pre><code>{{ input_text }}</code></pre>
+</div>
+{% endif %}
+
+<h3>Solution Code</h3>
+<pre><code class="language-python">{{ solution_code }}</code></pre>
+{% else %}
+<p>No solution found. Create one with:</p>
+<pre><code>uv run aoc new {{ day }}</code></pre>
+{% endif %}
+
+{% if not has_input %}
+<div style="margin: 20px 0;">
+    <h3>Download Input</h3>
+    <button onclick="downloadInput()">Download Day {{ day }} Input</button>
+    <div id="download-status"></div>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+// Initialize syntax highlighting
+document.addEventListener('DOMContentLoaded', function() {
+    hljs.highlightAll();
+});
+
+function toggleCollapsible(element) {
+    element.classList.toggle('active');
+    const content = element.nextElementSibling;
+    if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+    } else {
+        content.style.maxHeight = content.scrollHeight + 'px';
+    }
+}
+
+async function downloadInput() {
+    const status = document.getElementById('download-status');
+    status.innerHTML = '<p style="color: #ffff66;">Downloading...</p>';
+
+    try {
+        const response = await fetch('{% url "showcase:download_input" day %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            status.innerHTML = '<p style="color: #99ff99;">✓ ' + data.message + '</p>';
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            status.innerHTML = '<p style="color: #ff6666;">✗ Error: ' + data.error + '</p>';
+        }
+    } catch (error) {
+        status.innerHTML = '<p style="color: #ff6666;">✗ Error: ' + error.message + '</p>';
+    }
+}
+</script>
+{% endblock %}

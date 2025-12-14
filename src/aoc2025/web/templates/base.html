@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AOC 2025{% endblock %}</title>
+    <style>
+        :root {
+            --bg: #0f0f23;
+            --fg: #cccccc;
+            --link: #009900;
+            --link-hover: #99ff99;
+            --header: #00cc00;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: 'Source Code Pro', monospace;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--header);
+        }
+
+        a {
+            color: var(--link);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: var(--link-hover);
+        }
+
+        .day-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .day-card {
+            background: #10101a;
+            border: 1px solid #333;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .day-card:hover {
+            border-color: var(--link);
+        }
+
+        .status {
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .status.complete {
+            color: #ffff66;
+        }
+
+        .status.incomplete {
+            color: #666;
+        }
+
+        pre {
+            background: #10101a;
+            border: 1px solid #333;
+            padding: 15px;
+            overflow-x: auto;
+            border-radius: 5px;
+        }
+
+        code {
+            font-family: 'Source Code Pro', monospace;
+        }
+
+        .answer {
+            background: #10101a;
+            border-left: 3px solid var(--header);
+            padding: 10px 15px;
+            margin: 10px 0;
+        }
+
+        button {
+            background: var(--link);
+            color: var(--bg);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: inherit;
+            border-radius: 3px;
+        }
+
+        button:hover {
+            background: var(--link-hover);
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <h1><a href="/">🎄 Advent of Code 2025</a></h1>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #333; text-align: center;">
+        <p>Laget i 🎄🧑🏻‍🎄 av Kenneth</p>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
