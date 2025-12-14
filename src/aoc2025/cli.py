@@ -3,7 +3,7 @@
 import importlib.util
 import sys
 from pathlib import Path
-from typing import Annotated, Literal, Optional
+from typing import Annotated, Literal
 
 import typer
 from rich.console import Console
@@ -93,7 +93,7 @@ def new(
 def download(
     day: Annotated[int, typer.Argument(help="Day number (1-25)")],
     output: Annotated[
-        Optional[Path],
+        Path | None,
         typer.Option("--output", "-o", help="Output file path"),
     ] = None,
     wait: Annotated[
@@ -114,14 +114,14 @@ def download(
         client.download_input(day, output_path=output, wait_for_unlock=wait)
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(code=1)
+        raise typer.Exit(code=1) from e
 
 
 @app.command()
 def run(
     day: Annotated[int, typer.Argument(help="Day number (1-25)")],
     part: Annotated[
-        Optional[int], typer.Option("--part", "-p", help="Part to run (1 or 2)")
+        int | None, typer.Option("--part", "-p", help="Part to run (1 or 2)")
     ] = None,
     test: Annotated[
         bool,
@@ -177,7 +177,7 @@ def submit(
     day: Annotated[int, typer.Argument(help="Day number (1-25)")],
     part: Annotated[int, typer.Argument(help="Part number (1 or 2)", min=1, max=2)],
     answer: Annotated[
-        Optional[str],
+        str | None,
         typer.Option(
             "--answer", "-a", help="Answer to submit (or use solution output)"
         ),
@@ -242,7 +242,7 @@ def submit(
 
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(code=1)
+        raise typer.Exit(code=1) from e
 
 
 @app.command()

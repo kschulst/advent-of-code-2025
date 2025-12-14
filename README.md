@@ -1,6 +1,7 @@
 # Kennneth's Advent of Code 2025 🎄
 
 ![Build Status](https://github.com/kschulst/advent-of-code-2025/workflows/Build%20and%20Test/badge.svg)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 A Python toolkit for solving [Advent of Code](https://adventofcode.com) puzzles with a handy CLI and web showcase. Fork and use it for your own solutions! 🧑🏻‍🎄
@@ -264,20 +265,19 @@ Visit http://localhost:8000
 
 ## Code Quality
 
-This project uses **strict type checking** with pyright and **automatic formatting** with Black to ensure code quality.
+This project uses **Ruff** for linting, **Black** for formatting, and **pyright** for type checking to ensure code quality.
 
-### Running Type Checks
+### Linting
 
 ```bash
 # Install dev dependencies
 uv sync --extra dev
 
-# Check all code
-uv run pyright
+# Run Ruff linter
+uv run ruff check src solutions
 
-# Check specific directories
-uv run pyright src
-uv run pyright solutions
+# Auto-fix issues
+uv run ruff check --fix src solutions
 ```
 
 ### Code Formatting
@@ -288,6 +288,17 @@ uv run black --check src solutions
 
 # Auto-format code
 uv run black src solutions
+```
+
+### Type Checking
+
+```bash
+# Check all code
+uv run pyright
+
+# Check specific directories
+uv run pyright src
+uv run pyright solutions
 ```
 
 ## Configuration
@@ -355,6 +366,7 @@ make run DAY=1           # Run solution
 make test DAY=1          # Run with test input
 make submit DAY=1 PART=1 # Submit answer
 make web                 # Start Django server
+make lint                # Run Ruff linter
 make format              # Format code with Black
 make check               # Check code formatting
 make typecheck           # Run pyright type checker

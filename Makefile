@@ -1,4 +1,4 @@
-.PHONY: help install login status new run test submit web clean format check typecheck
+.PHONY: help install login status new run test submit web clean format check lint typecheck
 
 help:
 	@echo "Kenneth's AOC 2025 Toolkit - Available Commands:"
@@ -11,6 +11,7 @@ help:
 	@echo "  make test DAY=N - Run solution with test input"
 	@echo "  make submit DAY=N PART=P - Submit answer for day N part P"
 	@echo "  make web        - Start Django web server"
+	@echo "  make lint       - Run Ruff linter"
 	@echo "  make format     - Format code with Black"
 	@echo "  make check      - Check code formatting"
 	@echo "  make typecheck  - Run type checker"
@@ -58,6 +59,10 @@ web:
 	@echo "Starting Django web server..."
 	@uv run python src/aoc2025/web/manage.py migrate --no-input 2>/dev/null || true
 	uv run python src/aoc2025/web/manage.py runserver
+
+lint:
+	@echo "Running Ruff linter..."
+	uv run ruff check src solutions
 
 format:
 	@echo "Formatting code with Black..."

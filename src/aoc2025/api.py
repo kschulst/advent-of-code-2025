@@ -1,6 +1,6 @@
 """AOC API client for downloading inputs and submitting answers."""
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from time import sleep
 from typing import Literal
@@ -161,8 +161,8 @@ class AOCClient:
     def _wait_for_unlock(self, day: int) -> None:
         """Wait until the puzzle unlocks (midnight EST on the given day)."""
         # AOC puzzles unlock at midnight EST (UTC-5)
-        unlock_time = datetime(self.year, 12, day, 5, 0, 0, tzinfo=timezone.utc)
-        now = datetime.now(timezone.utc)
+        unlock_time = datetime(self.year, 12, day, 5, 0, 0, tzinfo=UTC)
+        now = datetime.now(UTC)
 
         if now >= unlock_time:
             return
@@ -172,8 +172,8 @@ class AOCClient:
             f"[yellow]Waiting {int(wait_seconds)} seconds for day {day} to unlock...[/yellow]"
         )
 
-        while datetime.now(timezone.utc) < unlock_time:
-            remaining = (unlock_time - datetime.now(timezone.utc)).total_seconds()
+        while datetime.now(UTC) < unlock_time:
+            remaining = (unlock_time - datetime.now(UTC)).total_seconds()
             if remaining <= 0:
                 break
             console.print(
