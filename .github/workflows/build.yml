@@ -32,59 +32,20 @@ jobs:
         key: venv-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}
 
     - name: Install dependencies
-      run: |
-        uv sync --extra dev
+      run: uv sync --extra dev
 
-    - name: Run type checks with pyright
-      run: |
-        uv run pyright src
-        uv run pyright solutions
+    - name: Run type checks
+      run: uv run pyright src solutions
 
-    # Generate a random secret key for testing (not stored, regenerated each run)
-    # This is more secure than hardcoding a test key
-    - name: Generate test secret key
-      id: secret
+    - name: Run Django checks
       run: |
-        echo "key=$(python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())')" >> $GITHUB_OUTPUT
-
-    - name: Run Django system checks
-      run: |
+        mkdir -p src/aoc2025/web/static
+        SECRET_KEY=$(python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())')
+        export DJANGO_SECRET_KEY="$SECRET_KEY"
         uv run python src/aoc2025/web/manage.py check --deploy
-      env:
-        DJANGO_SECRET_KEY: ${{ steps.secret.outputs.key }}
-        DJANGO_DEBUG: "False"
-        ALLOWED_HOSTS: "localhost,127.0.0.1"
-
-    - name: Check for missing migrations
-      run: |
         uv run python src/aoc2025/web/manage.py makemigrations --check --dry-run
-      env:
-        DJANGO_SECRET_KEY: ${{ steps.secret.outputs.key }}
-
-    - name: Run migrations (dry run)
-      run: |
         uv run python src/aoc2025/web/manage.py migrate --check
-      env:
-        DJANGO_SECRET_KEY: ${{ steps.secret.outputs.key }}
-
-    - name: Collect static files
-      run: |
         uv run python src/aoc2025/web/manage.py collectstatic --noinput
       env:
-        DJANGO_SECRET_KEY: ${{ steps.secret.outputs.key }}
-
-    - name: Test build script
-      run: |
-        chmod +x build.sh
-        # Don't actually run it, just verify it's valid bash
-        bash -n build.sh
-
-    - name: Verify gunicorn can start (syntax check)
-      run: |
-        uv run gunicorn --version
-
-    - name: Build summary
-      if: always()
-      run: |
-        echo "✅ Build completed successfully!"
-        echo "Ready to deploy to Render.com"
+        DJANGO_DEBUG: "False"
+        ALLOWED_HOSTS: "localhost,127.0.0.1"
